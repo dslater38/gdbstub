@@ -17,14 +17,10 @@
  */
 
 /* Define the size_t type */
-#define DBG_DEFINE_SIZET 0
+#define DBG_DEFINE_SIZET 1
 
 /* Define required standard integer types (e.g. uint16_t) */
-#define DBG_DEFINE_STDINT 0
-
-#include <stdint.h>
-#include "../src/isr.h"
-
+#define DBG_DEFINE_STDINT 1
 
 /*****************************************************************************
  * Types
@@ -41,19 +37,16 @@ typedef unsigned long long uint64_t;
 typedef uint64_t size_t;
 #endif
 
-typedef uintptr_t address;
+typedef uint64_t address;
 typedef uint64_t reg;
 
-typedef registers64_t dbg_interrupt_state;
-
-#if 0
 #pragma pack(1)
 struct dbg_interrupt_state {
-	uint64_t ss;
-	uint64_t gs;
-	uint64_t fs;
-	uint64_t es;
-	uint64_t ds;
+	uint32_t ss;
+	uint32_t gs;
+	uint32_t fs;
+	uint32_t es;
+	uint32_t ds;
 	uint64_t rdi;
 	uint64_t rsi;
 	uint64_t rbp;
@@ -73,13 +66,10 @@ struct dbg_interrupt_state {
 	uint64_t vector;
 	uint64_t error_code;
 	uint64_t rip;
-	uint64_t cs;
+	uint32_t cs;
 	uint64_t rflags;
-	uint64_t userrsp;
 };
 #pragma pack()
-
-#endif // 0
 
 #pragma pack(1)
 struct dbg_idtr
@@ -103,29 +93,29 @@ struct dbg_idt_gate
 
 enum DBG_REGISTER {
 	DBG_CPU_I386_REG_RAX       = 0,
-	DBG_CPU_I386_REG_RBX       = 1,
-	DBG_CPU_I386_REG_RCX       = 2,
-	DBG_CPU_I386_REG_RDX       = 3,
-	DBG_CPU_I386_REG_RSI       = 4,
-	DBG_CPU_I386_REG_RDI       = 5,
-	DBG_CPU_I386_REG_RBP       = 6,
-	DBG_CPU_I386_REG_RSP       = 7,	
-	DBG_CPU_I386_REG_R8        = 8,
-	DBG_CPU_I386_REG_R9        = 9,
-	DBG_CPU_I386_REG_R10        = 10,
-	DBG_CPU_I386_REG_R11        = 11,
-	DBG_CPU_I386_REG_R12        = 12,
-	DBG_CPU_I386_REG_R13        = 13,
-	DBG_CPU_I386_REG_R14		= 14,
-	DBG_CPU_I386_REG_R15		= 15,
-	DBG_CPU_I386_REG_RIP       	= 16,
-	DBG_CPU_I386_REG_RFLAGS	= 17,
-	DBG_CPU_I386_REG_CS       = 18,
-	DBG_CPU_I386_REG_SS       = 19,
-	DBG_CPU_I386_REG_DS       = 20,
-	DBG_CPU_I386_REG_ES       = 21,
-	DBG_CPU_I386_REG_FS       = 22,
-	DBG_CPU_I386_REG_GS       = 23,
+	DBG_CPU_I386_REG_RCX       = 1,
+	DBG_CPU_I386_REG_RDX       = 2,
+	DBG_CPU_I386_REG_RBX       = 3,
+	DBG_CPU_I386_REG_RSP       = 4,
+	DBG_CPU_I386_REG_RBP       = 5,
+	DBG_CPU_I386_REG_RSI       = 6,
+	DBG_CPU_I386_REG_RDI       = 7,	
+	DBG_CPU_I386_REG_PC        = 8,
+	DBG_CPU_I386_REG_PS        = 9,
+	DBG_CPU_I386_REG_CS        = 10,
+	DBG_CPU_I386_REG_SS        = 11,
+	DBG_CPU_I386_REG_DS        = 12,
+	DBG_CPU_I386_REG_ES        = 13,
+	DBG_CPU_I386_REG_FS        = 14,
+	DBG_CPU_I386_REG_GS        = 15,
+	DBG_CPU_I386_REG_R8       = 16,
+	DBG_CPU_I386_REG_R9       = 17,
+	DBG_CPU_I386_REG_R10       = 18,
+	DBG_CPU_I386_REG_R11       = 19,
+	DBG_CPU_I386_REG_R12       = 20,
+	DBG_CPU_I386_REG_R13       = 21,
+	DBG_CPU_I386_REG_R14       = 22,
+	DBG_CPU_I386_REG_R15       = 23,
 	DBG_CPU_I386_NUM_REGISTERS = 24
 };
 

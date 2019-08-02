@@ -16,12 +16,12 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-CC           := gcc
-CFLAGS       := -Werror -ansi -Os -m32 -g -ffunction-sections -fno-stack-protector
+CC           := clang
+CFLAGS       := -Werror -ansi -Os -g -ffunction-sections -fno-stack-protector
 LD           := ld
-LDFLAGS      := --script=gdbstub.ld -m elf_i386 --gc-sections
+LDFLAGS      := --script=gdbstub.ld -m elf_x86_64 --gc-sections
 NASM         := nasm
-NASM_FLAGS   := -felf
+NASM_FLAGS   := -felf64
 OBJCOPY      := objcopy
 OBJCOPYFLAGS := --output-target=binary
 TARGET       := gdbstub.bin
@@ -30,7 +30,7 @@ OBJECTS      := gdbstub_rsp.o \
                 gdbstub_int.o \
                 gdbstub_sys.o
 
-all: $(TARGET)
+all: $(OBJECTS)
 .PRECIOUS: %.elf
 
 %.bin: %.elf

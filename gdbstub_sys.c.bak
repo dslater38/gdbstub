@@ -166,33 +166,6 @@ void dbg_int_handler(struct dbg_interrupt_state *istate)
 }
 
 /*
-	DBG_CPU_I386_REG_RAX       = 0,
-	DBG_CPU_I386_REG_RBX       = 1,
-	DBG_CPU_I386_REG_RCX       = 2,
-	DBG_CPU_I386_REG_RDX       = 3,
-	DBG_CPU_I386_REG_RSI       = 4,
-	DBG_CPU_I386_REG_RDI       = 5,
-	DBG_CPU_I386_REG_RBP       = 6,
-	DBG_CPU_I386_REG_RSP       = 7,	
-	DBG_CPU_I386_REG_R8        = 8,
-	DBG_CPU_I386_REG_R9        = 9,
-	DBG_CPU_I386_REG_R10        = 10,
-	DBG_CPU_I386_REG_R11        = 11,
-	DBG_CPU_I386_REG_R12        = 12,
-	DBG_CPU_I386_REG_R13        = 13,
-	DBG_CPU_I386_REG_R14		= 14,
-	DBG_CPU_I386_REG_R15		= 15,
-	DBG_CPU_I386_REG_RIP       	= 16,
-	DBG_CPU_I386_REG_RFLAGS	= 17,
-	DBG_CPU_I386_REG_CS       = 18,
-	DBG_CPU_I386_REG_SS       = 19,
-	DBG_CPU_I386_REG_DS       = 20,
-	DBG_CPU_I386_REG_ES       = 21,
-	DBG_CPU_I386_REG_FS       = 22,
-	DBG_CPU_I386_REG_GS       = 23,
-*/
-
-/*
  * Debug interrupt handler.
  */
 void dbg_interrupt(struct dbg_interrupt_state *istate)
@@ -203,13 +176,21 @@ void dbg_interrupt(struct dbg_interrupt_state *istate)
 
 	/* Load Registers */
 	dbg_state.registers[DBG_CPU_I386_REG_RAX] = istate->rax;
-	dbg_state.registers[DBG_CPU_I386_REG_RBX] = istate->rbx;
 	dbg_state.registers[DBG_CPU_I386_REG_RCX] = istate->rcx;
 	dbg_state.registers[DBG_CPU_I386_REG_RDX] = istate->rdx;
+	dbg_state.registers[DBG_CPU_I386_REG_RBX] = istate->rbx;
+	dbg_state.registers[DBG_CPU_I386_REG_RSP] = istate->rsp;
+	dbg_state.registers[DBG_CPU_I386_REG_RBP] = istate->rbp;
 	dbg_state.registers[DBG_CPU_I386_REG_RSI] = istate->rsi;
 	dbg_state.registers[DBG_CPU_I386_REG_RDI] = istate->rdi;
-	dbg_state.registers[DBG_CPU_I386_REG_RBP] = istate->rbp;
-	dbg_state.registers[DBG_CPU_I386_REG_RSP] = istate->rsp;
+	dbg_state.registers[DBG_CPU_I386_REG_PC]  = istate->rip;
+	dbg_state.registers[DBG_CPU_I386_REG_CS]  = istate->cs;
+	dbg_state.registers[DBG_CPU_I386_REG_PS]  = istate->rflags;
+	dbg_state.registers[DBG_CPU_I386_REG_SS]  = istate->ss;
+	dbg_state.registers[DBG_CPU_I386_REG_DS]  = istate->ds;
+	dbg_state.registers[DBG_CPU_I386_REG_ES]  = istate->es;
+	dbg_state.registers[DBG_CPU_I386_REG_FS]  = istate->fs;
+	dbg_state.registers[DBG_CPU_I386_REG_GS]  = istate->gs;	
 	dbg_state.registers[DBG_CPU_I386_REG_R8] = istate->r8;
 	dbg_state.registers[DBG_CPU_I386_REG_R9] = istate->r9;
 	dbg_state.registers[DBG_CPU_I386_REG_R10] = istate->r10;
@@ -217,29 +198,30 @@ void dbg_interrupt(struct dbg_interrupt_state *istate)
 	dbg_state.registers[DBG_CPU_I386_REG_R12] = istate->r12;
 	dbg_state.registers[DBG_CPU_I386_REG_R13] = istate->r13;
 	dbg_state.registers[DBG_CPU_I386_REG_R14] = istate->r14;
-	dbg_state.registers[DBG_CPU_I386_REG_R15] = istate->r15;	
-	dbg_state.registers[DBG_CPU_I386_REG_RIP]  = istate->rip;
-	dbg_state.registers[DBG_CPU_I386_REG_PS]  = istate->rflags;
-	dbg_state.registers[DBG_CPU_I386_REG_CS]  = istate->cs;
-	dbg_state.registers[DBG_CPU_I386_REG_SS]  = istate->ss;
-	dbg_state.registers[DBG_CPU_I386_REG_DS]  = istate->ds;
-	dbg_state.registers[DBG_CPU_I386_REG_ES]  = istate->es;
-	dbg_state.registers[DBG_CPU_I386_REG_FS]  = istate->fs;
-	dbg_state.registers[DBG_CPU_I386_REG_GS]  = istate->gs;	
-
-
+	dbg_state.registers[DBG_CPU_I386_REG_R15] = istate->r15;
+	
+	
 
 	dbg_main(&dbg_state);
 
 	/* Restore Registers */
 	istate->rax    = dbg_state.registers[DBG_CPU_I386_REG_RAX];
-	istate->rbx    = dbg_state.registers[DBG_CPU_I386_REG_RBX];
 	istate->rcx    = dbg_state.registers[DBG_CPU_I386_REG_RCX];
 	istate->rdx    = dbg_state.registers[DBG_CPU_I386_REG_RDX];
+	istate->rbx    = dbg_state.registers[DBG_CPU_I386_REG_RBX];
+	istate->rsp    = dbg_state.registers[DBG_CPU_I386_REG_RSP];
+	istate->rbp    = dbg_state.registers[DBG_CPU_I386_REG_RBP];
 	istate->rsi    = dbg_state.registers[DBG_CPU_I386_REG_RSI];
 	istate->rdi    = dbg_state.registers[DBG_CPU_I386_REG_RDI];
-	istate->rbp    = dbg_state.registers[DBG_CPU_I386_REG_RBP];
-	istate->rsp    = dbg_state.registers[DBG_CPU_I386_REG_RSP];
+	istate->rip    = dbg_state.registers[DBG_CPU_I386_REG_PC];
+	istate->cs     = dbg_state.registers[DBG_CPU_I386_REG_CS];
+	istate->rflags = dbg_state.registers[DBG_CPU_I386_REG_PS];
+	istate->ss     = dbg_state.registers[DBG_CPU_I386_REG_SS];
+	istate->ds     = dbg_state.registers[DBG_CPU_I386_REG_DS];
+	istate->es     = dbg_state.registers[DBG_CPU_I386_REG_ES];
+	istate->fs     = dbg_state.registers[DBG_CPU_I386_REG_FS];
+	istate->gs     = dbg_state.registers[DBG_CPU_I386_REG_GS];
+
 	istate->r8     = dbg_state.registers[DBG_CPU_I386_REG_R8];
 	istate->r9     = dbg_state.registers[DBG_CPU_I386_REG_R9];
 	istate->r10     = dbg_state.registers[DBG_CPU_I386_REG_R10];
@@ -248,14 +230,7 @@ void dbg_interrupt(struct dbg_interrupt_state *istate)
 	istate->r13      = dbg_state.registers[DBG_CPU_I386_REG_R13];
 	istate->r14     = dbg_state.registers[DBG_CPU_I386_REG_R14];
 	istate->r15     = dbg_state.registers[DBG_CPU_I386_REG_R15];
-	istate->rip    = dbg_state.registers[DBG_CPU_I386_REG_RIP];
-	istate->rflags = dbg_state.registers[DBG_CPU_I386_REG_PS];
-	istate->cs     = dbg_state.registers[DBG_CPU_I386_REG_CS];
-	istate->ss     = dbg_state.registers[DBG_CPU_I386_REG_SS];
-	istate->ds     = dbg_state.registers[DBG_CPU_I386_REG_DS];
-	istate->es     = dbg_state.registers[DBG_CPU_I386_REG_ES];
-	istate->fs     = dbg_state.registers[DBG_CPU_I386_REG_FS];
-	istate->gs     = dbg_state.registers[DBG_CPU_I386_REG_GS];	
+	
 }
 
 /*****************************************************************************
