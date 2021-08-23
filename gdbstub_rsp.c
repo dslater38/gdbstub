@@ -1,3 +1,4 @@
+#ifdef NOT_YET
 /*
  * Copyright (C) 2016  Matt Borgerson
  *
@@ -960,3 +961,5 @@ int dbg_main(struct dbg_state *state)
 
 	return 0;
 }
+
+#endif // NOT_YET

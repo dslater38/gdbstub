@@ -17,7 +17,9 @@
 #
 
 CC           := clang
-CFLAGS       := -Werror -ansi -Os -g -ffunction-sections -fno-stack-protector
+CFLAGS       := -I../include -D_LIBCPP_HAS_NO_BUILTIN_OPERATOR_NEW_DELETE -fno-use-cxa-atexit \
+-mno-sse2 -nostdlib -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fpie \
+-ffreestanding -Werror -ansi -Os -g -ffunction-sections -fno-stack-protector
 LD           := ld
 LDFLAGS      := --script=gdbstub.ld -m elf_x86_64 --gc-sections
 NASM         := nasm

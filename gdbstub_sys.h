@@ -22,9 +22,8 @@
 /* Define required standard integer types (e.g. uint16_t) */
 #define DBG_DEFINE_STDINT 0
 
-#include <stdint.h>
-#include "../src/isr.h"
-
+#include "../include/isr.h"
+#include <stddef.h>
 
 /*****************************************************************************
  * Types
@@ -150,8 +149,8 @@ int dbg_init_idt(void);
 int dbg_load_idt(struct dbg_idtr *idtr);
 int dbg_store_idt(struct dbg_idtr *idtr);
 uint32_t dbg_get_cs(void);
-void dbg_int_handler(struct dbg_interrupt_state *istate);
-void dbg_interrupt(struct dbg_interrupt_state *istate);
+void dbg_int_handler(dbg_interrupt_state *istate);
+void dbg_interrupt(dbg_interrupt_state *istate);
 void dbg_start(void);
 void dbg_io_write_8(uint16_t port, uint8_t val);
 uint8_t dbg_io_read_8(uint16_t port);

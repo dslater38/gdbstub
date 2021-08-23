@@ -1,3 +1,4 @@
+#ifdef NOT_YET
 /*
  * Copyright (C) 2016  Matt Borgerson
  *
@@ -160,7 +161,7 @@ int dbg_init_idt(void)
 /*
  * Common interrupt handler routine.
  */
-void dbg_int_handler(struct dbg_interrupt_state *istate)
+void dbg_int_handler(dbg_interrupt_state *istate)
 {
 	dbg_interrupt(istate);
 }
@@ -195,7 +196,7 @@ void dbg_int_handler(struct dbg_interrupt_state *istate)
 /*
  * Debug interrupt handler.
  */
-void dbg_interrupt(struct dbg_interrupt_state *istate)
+void dbg_interrupt(dbg_interrupt_state *istate)
 {
 	dbg_sys_memset(&dbg_state.registers, 0, sizeof(dbg_state.registers));
 
@@ -385,3 +386,5 @@ void dbg_start(void)
 	/* Interrupt to start debugging. */
 	asm volatile ("int3");
 }
+
+#endif // NOT_YET
